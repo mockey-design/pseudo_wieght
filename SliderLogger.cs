@@ -4,19 +4,21 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System.Collections.Generic;
+
 public class SliderLogger : MonoBehaviour
 {
-    [SerializeField] private Slider slider; // ƒXƒ‰ƒCƒ_[‚ÌQÆ
-    [SerializeField] private Button logButton; // ƒƒO‚ğo—Í‚·‚éƒ{ƒ^ƒ“
-    private string directoryPath = @"C:\Users\Motoki_Kagami\interaction_toolkit"; // w’è‚³‚ê‚½•Û‘¶æ
+    [SerializeField] private Slider slider; // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®å‚ç…§
+    [SerializeField] private Button logButton; // ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ãƒœã‚¿ãƒ³
+    private string directoryPath = @"C:\Users\Motoki_Kagami\interaction_toolkit"; // æŒ‡å®šã•ã‚ŒãŸä¿å­˜å…ˆ
     private string filePath;
 
     private void Start()
     {
-        // •Û‘¶æƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è
+        // ä¿å­˜å…ˆãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®š
         filePath = Path.Combine(directoryPath, "SliderLog.csv");
 
-        // ƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡‚Íì¬
+        // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ä½œæˆ
         if (!Directory.Exists(directoryPath))
         {
             try
@@ -31,7 +33,7 @@ public class SliderLogger : MonoBehaviour
             }
         }
 
-        // CSVƒtƒ@ƒCƒ‹‚Éƒwƒbƒ_[‚ğ‘‚«‚Şi‰‰ñ‚Ì‚İj
+        // CSVãƒ•ã‚¡ã‚¤ãƒ«ã«ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’æ›¸ãè¾¼ã‚€ï¼ˆåˆå›ã®ã¿ï¼‰
         if (!File.Exists(filePath))
         {
             try
@@ -45,7 +47,7 @@ public class SliderLogger : MonoBehaviour
             }
         }
 
-        // ƒ{ƒ^ƒ“‚ÌƒCƒxƒ“ƒg“o˜^
+        // ãƒœã‚¿ãƒ³ã®ã‚¤ãƒ™ãƒ³ãƒˆç™»éŒ²
         if (logButton != null)
         {
             logButton.onClick.AddListener(OnLogButtonClicked);
@@ -55,7 +57,7 @@ public class SliderLogger : MonoBehaviour
             Debug.LogError("Log Button is not assigned in the Inspector.");
         }
 
-        // ƒXƒ‰ƒCƒ_[‚ÌŠm”F
+        // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¢ºèª
         if (slider == null)
         {
             Debug.LogError("Slider is not assigned in the Inspector.");
@@ -66,16 +68,16 @@ public class SliderLogger : MonoBehaviour
     {
         if (slider != null)
         {
-            // ƒXƒ‰ƒCƒ_[‚ÌŒ»İ’l‚ğæ“¾
+            // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¾åœ¨å€¤ã‚’å–å¾—
             float sliderValue = slider.value;
 
-            // Œ»İ‚Ì“ú‚ğæ“¾
+            // ç¾åœ¨ã®æ—¥æ™‚ã‚’å–å¾—
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            // ƒƒO‚ğƒRƒ“ƒ\[ƒ‹‚Éo—Í
+            // ãƒ­ã‚°ã‚’ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«å‡ºåŠ›
             Debug.Log($"{timestamp}, Slider Value: {sliderValue}");
 
-            // CSV‚ÉƒƒO‚ğ‘‚«‚Ş
+            // CSVã«ãƒ­ã‚°ã‚’æ›¸ãè¾¼ã‚€
             WriteToCsv(timestamp, sliderValue);
         }
         else
@@ -88,7 +90,7 @@ public class SliderLogger : MonoBehaviour
     {
         try
         {
-            // CSVŒ`®‚ÅƒƒO‚ğ‘‚«‚Ş
+            // CSVå½¢å¼ã§ãƒ­ã‚°ã‚’æ›¸ãè¾¼ã‚€
             string logEntry = $"{timestamp},{value}\n";
             File.AppendAllText(filePath, logEntry, Encoding.UTF8);
 
@@ -102,7 +104,7 @@ public class SliderLogger : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ƒ{ƒ^ƒ“‚ÌƒCƒxƒ“ƒgƒŠƒXƒi[‚ğ‰ğœiƒƒ‚ƒŠƒŠ[ƒN–h~j
+        // ãƒœã‚¿ãƒ³ã®ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠãƒ¼ã‚’è§£é™¤ï¼ˆãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯é˜²æ­¢ï¼‰
         if (logButton != null)
         {
             logButton.onClick.RemoveListener(OnLogButtonClicked);
